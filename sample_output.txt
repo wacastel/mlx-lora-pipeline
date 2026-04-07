@@ -1,0 +1,23 @@
+(base) william@MacBook-Pro-M5-Max mlx-lora-pipeline % python chat_inference.py 
+📥 Loading Base Model and LoRA Adapters into Unified Memory...
+Downloading (incomplete total...): 0.00B [00:00, ?B/s]                                                                 Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Fetching 6 files: 100%|███████████████████████████████████████████████████████████████████| 6/6 [01:20<00:00, 13.39s/it]
+Download complete: : 5.28GB [01:20, 65.7MB/s]                                             | 2/6 [01:20<03:08, 47.23s/it]
+✅ Model loaded successfully!
+
+==================================================
+🗡️ Shrine Seeker Compendium is online.
+Type 'quit' or 'exit' to end the conversation.
+==================================================
+
+You: What is the material Hearty Durian used for, and where is it found?
+Assistant: This fruit grows in hot climates such as the Faron region. It's chock-full of nutrients and has a rich scent. It is commonly found in these locations: Faron, Eldin Canyon.
+
+--------------------------------------------------
+You: What is a Silver Lynel, and what are its characteristics?
+Assistant: These fearsome monsters have lived in Hyrule since ancient times. They possess intense intelligence and strength, and their scales have a natural sheen to them. They're much tougher than Bokoblin, but they're not the most dangerous monsters. It is commonly found in these locations: Hyrule Field, Deep Akkala. Upon defeat or collection, it can yield: lynel horn, lynel hoof.
+
+--------------------------------------------------
+You: quit
+Shutting down the Sheikah Slate...
+(base) william@MacBook-Pro-M5-Max mlx-lora-pipeline % 

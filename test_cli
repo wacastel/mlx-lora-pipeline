@@ -1,0 +1,5 @@
+python3 -m mlx_lm.generate \
+    --model mlx-community/Meta-Llama-3-8B-Instruct-4bit \
+    --adapter-path adapters \
+    --max-tokens 200 \
+    --prompt "<|user|> What is a Silver Lynel, and what are its characteristics? <|assistant|>"

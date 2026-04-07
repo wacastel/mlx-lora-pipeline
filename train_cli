@@ -1,0 +1,6 @@
+python3 -m mlx_lm.lora \
+    --model mlx-community/Meta-Llama-3-8B-Instruct-4bit \
+    --data data \
+    --train \
+    --iters 500 \
+    --batch-size 2
