@@ -4,19 +4,19 @@ This repository contains the dataset, architecture, and execution pipeline for f
 
 ## Phase 1: The Foundation Model Architecture
 
-Instead of pre-training from scratch, this pipeline leverages existing multi-billion parameter foundation models (e.g., Meta's Llama 3 8B or Llama 4 Maverick). 
+Instead of pre-training from scratch, this pipeline leverages existing multi-billion parameter foundation models, specifically Meta's **Llama 3 8B** for local smoke-testing and **Llama 3 70B Instruct** for production deployment. 
 
 Foundation models are dense neural networks that have already processed trillions of tokens of internet data. Because of this massive pre-training phase, the model already possesses deep structural knowledge of the English language, logical reasoning capabilities, and general world knowledge. 
 
 **Target Architecture (Mac Studio M3 Ultra / 512GB Unified Memory):**
-The production target for this pipeline is **Llama 4 Maverick**. Maverick utilizes a **Mixture-of-Experts (MoE)** architecture. Instead of pushing data through all 400 billion parameters for every single word, it features a routing network that selects only the most relevant "expert" sub-networks (activating only 17 billion parameters per token). This allows for staggering intelligence and deep reasoning while maintaining incredibly fast generation speeds.
+The production target for this pipeline is **Meta Llama 3 70B Instruct**. It is a massive, highly capable model that can hold complex logical context and resist hallucinations when fine-tuned properly. Thanks to 4-bit quantization, all 70 billion parameters can be loaded seamlessly into the Mac Studio's unified memory.
 
 ## Phase 2: The Fine-Tuning Methodology (LoRA)
 
 To teach the foundation model the highly specific facts of the Hyrule Compendium, we use a technique called **LoRA (Low-Rank Adaptation)**.
 
 ### How LoRA Works:
-1. **Freezing the Brain:** We completely "freeze" the original 400 billion weights of the foundation model. We do not alter its core understanding of grammar or general logic.
+1. **Freezing the Brain:** We completely "freeze" the original weights of the foundation model. We do not alter its core understanding of grammar or general logic.
 2. **Injecting Adapters:** We inject tiny, trainable matrices (adapters) into the model's attention layers. 
 3. **Targeted Training:** During the training loop, only these tiny adapter matrices are updated. 
 
@@ -35,7 +35,7 @@ We wrap our Compendium data in specific structural tokens (`<|user|>` and `<|ass
 
 ## Phase 4: Local Smoke Testing (MacBook Pro / Air)
 
-Before deploying to production, we validate the dataset and pipeline locally using an 8-Billion parameter model for a fast, 500-step test run.
+Before deploying to production, we validate the dataset and pipeline locally using the **Llama 3 8B** model for a fast, 500-step test run.
 
 ### 1. Execute the LoRA Training Loop
 ```bash
@@ -102,7 +102,7 @@ if __name__ == "__main__":
 ```
 
 ### 3. Smoke Test Results & Analysis
-During our local M5 testing, the model produced the following output:
+During our local Apple Silicon testing, the 8B model produced the following output:
 
 ```text
 You: What is the material Hearty Durian used for, and where is it found?
@@ -117,16 +117,16 @@ This output is a perfect mathematical representation of an under-trained, small-
 * **Location Blending:** It correctly associated Durians with the "Faron region" but mathematically hallucinated "Eldin Canyon" as an additional spawn.
 * **Entity Blending:** It gave Silver Lynels "scales with a natural sheen" (blending the entity with a Lizalfos or Dragon) and incorrectly stated they are "not the most dangerous monsters."
 
-## Phase 5: Production Deployment (Mac Studio / Llama 4 Maverick)
+## Phase 5: Production Deployment (Mac Studio / Llama 3 70B Instruct)
 
-To eliminate hallucinations and deploy the production-grade lore master, the pipeline must be scaled up using the 400-Billion parameter MoE architecture and a much longer training loop.
+To eliminate hallucinations and deploy the production-grade lore master, the pipeline must be scaled up using the massive **70-Billion parameter** architecture and a much longer training loop.
 
 ### 1. Execute the Production Training Loop
 Crank the `--iters` to at least 2000 to ensure the LoRA adapters have enough time to mathematically override the base model's logic with the exact Hyrule Compendium facts.
 
 ```bash
 python3 -m mlx_lm.lora \
-    --model mlx-community/Llama-4-Maverick-4bit \
+    --model mlx-community/Meta-Llama-3-70B-Instruct-4bit \
     --data data \
     --train \
     --iters 2000 \
@@ -134,16 +134,16 @@ python3 -m mlx_lm.lora \
 ```
 
 ### 2. Update the Inference Script
-Open `chat_inference.py` and swap the `MODEL_ID` to point to the new Maverick foundation weights:
+Open `chat_inference.py` and swap the `MODEL_ID` to point to the new 70B foundation weights:
 
 ```python
 # --- Configuration ---
-MODEL_ID = "mlx-community/Llama-4-Maverick-4bit"
+MODEL_ID = "mlx-community/Meta-Llama-3-70B-Instruct-4bit"
 ADAPTER_PATH = "adapters"
 ```
 
 ### 3. Launch the Production Compendium
-Run the exact same Python script. The framework will natively load the massive Maverick weights, merge your newly trained 2000-iteration LoRA adapters, and yield hallucination-free, deeply accurate Zelda lore.
+Run the exact same Python script. The framework will natively load the massive 70B weights into unified memory, merge your newly trained 2000-iteration LoRA adapters, and yield hallucination-free, deeply accurate Zelda lore.
 
 ```bash
 python3 chat_inference.py

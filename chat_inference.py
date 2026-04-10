@@ -3,7 +3,7 @@ from mlx_lm import load, generate
 
 # --- Configuration ---
 # You will swap this to the Llama 4 Maverick ID when you deploy to the Mac Studio
-MODEL_ID = "mlx-community/Meta-Llama-3-8B-Instruct-4bit"
+MODEL_ID = "mlx-community/Meta-Llama-3-70B-Instruct-4bit"
 ADAPTER_PATH = "adapters"
 
 def setup_inference():
