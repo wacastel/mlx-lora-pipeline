@@ -10,7 +10,11 @@ app = FastAPI(title="Shrine Seeker Compendium API")
 # Allow the React frontend to talk to this server
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:5173"], # Add your React dev port here
+    allow_origins=[
+        "http://localhost:3000", 
+        "http://localhost:5173", # Add your React dev port here
+        "https://shrineseeker.netlify.app" # <-- Add your actual Netlify URL here
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
